@@ -3,6 +3,7 @@ package com.maharana.notesapp.data.local
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.maharana.notesapp.data.local.entity.ChecklistItem
 
 class Converters {
     private val gson = Gson()
@@ -14,6 +15,16 @@ class Converters {
 
     @TypeConverter
     fun toStringList(list: List<String>): String {
+        return gson.toJson(list)
+    }
+
+    @TypeConverter
+    fun fromChecklistItemList(value: String): List<ChecklistItem> {
+        return gson.fromJson(value, object : TypeToken<List<ChecklistItem>>() {}.type)
+    }
+
+    @TypeConverter
+    fun toChecklistItemList(list: List<ChecklistItem>): String {
         return gson.toJson(list)
     }
 }

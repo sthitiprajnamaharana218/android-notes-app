@@ -3,8 +3,8 @@ package com.maharana.notesapp.utils
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+    import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat
 
 object PermissionsUtil {
@@ -32,20 +32,16 @@ object PermissionsUtil {
         }
     }
     
-    fun getAudioPermissionLauncher(): ActivityResultLauncher<String, Boolean> {
+    fun getAudioPermissionContract(): ActivityResultContract<String, Boolean> {
         return ActivityResultContracts.RequestPermission()
     }
     
-    fun getCameraPermissionLauncher(): ActivityResultLauncher<String, Boolean> {
+    fun getCameraPermissionContract(): ActivityResultContract<String, Boolean> {
         return ActivityResultContracts.RequestPermission()
     }
     
-    fun getStoragePermissionLauncher(): ActivityResultLauncher<Array<String>, Map<String, Boolean>> {
-        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            ActivityResultContracts.RequestMultiplePermissions()
-        } else {
-            ActivityResultContracts.RequestMultiplePermissions()
-        }
+    fun getStoragePermissionContract(): ActivityResultContract<Array<String>, Map<String, Boolean>> {
+        return ActivityResultContracts.RequestMultiplePermissions()
     }
     
     fun getRequiredPermissions(): Array<String> {

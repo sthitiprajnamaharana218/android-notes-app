@@ -8,6 +8,7 @@ import com.maharana.notesapp.data.local.dao.ChecklistItemDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -17,9 +18,9 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(context: Context): AppDatabase {
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(
-            context.applicationContext,
+            context,
             AppDatabase::class.java,
             "notes_database"
         ).build()

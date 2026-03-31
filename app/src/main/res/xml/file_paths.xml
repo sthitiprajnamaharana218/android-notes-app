@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <external-path name="my_images" path="Android/data/com.maharana.notesapp/files/Pictures" />
-    <external-path name="my_audio" path="Android/data/com.maharana.notesapp/files/Audio" />
+    <external-files-path name="my_images" path="images" />
+    <external-files-path name="my_audio" path="audio" />
+    <external-path name="external" path="." />
 </paths>

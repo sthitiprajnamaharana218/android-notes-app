@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maharana.notesapp.data.local.entity.Note
 import com.maharana.notesapp.data.repository.NoteRepository
-import com.maharana.notesapp.presentation.viewmodel.NotesEvent
+import com.maharana.notesapp.utils.ThemeSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -13,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
-    private val repository: NoteRepository
+    private val repository: NoteRepository,
+    private val themeSettings: ThemeSettings
 ) : ViewModel() {
 
     private val _notes = MutableStateFlow<List<Note>>(emptyList())
@@ -21,6 +22,8 @@ class NotesViewModel @Inject constructor(
 
     private val _event = Channel<NotesEvent>()
     val event = _event.receiveAsFlow()
+
+    val isDarkMode = themeSettings.isDarkMode
 
     init {
         viewModelScope.launch {
@@ -42,6 +45,9 @@ class NotesViewModel @Inject constructor(
                     repository.insertNote(event.note)
                 }
             }
+            is NotesEvent.ToggleTheme -> {
+                themeSettings.toggleTheme()
+            }
         }
     }
 }
@@ -49,4 +55,5 @@ class NotesViewModel @Inject constructor(
 sealed class NotesEvent {
     data class DeleteNote(val note: Note) : NotesEvent()
     data class RestoreNote(val note: Note) : NotesEvent()
+    object ToggleTheme : NotesEvent()
 }

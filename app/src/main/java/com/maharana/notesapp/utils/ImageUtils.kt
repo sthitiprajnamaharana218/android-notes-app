@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -33,6 +34,28 @@ class ImageUtils(private val context: Context) {
             }
             
             imageFile.absolutePath
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    fun createImageUri(): Uri? {
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val fileName = "camera_image_$timestamp.jpg"
+        
+        val imageDir = File(context.getExternalFilesDir(null), "images")
+        if (!imageDir.exists()) {
+            imageDir.mkdirs()
+        }
+        
+        val imageFile = File(imageDir, fileName)
+        return try {
+            FileProvider.getUriForFile(
+                context,
+                "${context.packageName}.provider",
+                imageFile
+            )
         } catch (e: Exception) {
             e.printStackTrace()
             null
